@@ -41,34 +41,43 @@ Ask something else:
 ```bash
 uv run demo "Is bisphenol A (CAS 80-05-7) genotoxic or carcinogenic?"
 uv run demo --json > trace.json       # the full machine-readable trace
-make test                             # six tests, the no-key path
+uv run pytest -q                      # six tests, the no-key path (or: make test)
 make notebook                         # execute demo.ipynb end to end
 ```
 
 `make demo` and `python demo.py` do the same thing as `uv run demo`.
 
-### Measured runtime on a 2026 Linux workstation (ws4, CPU only)
+### Measured runtime, CPU only
+
+Measured on ws4, a Linux workstation on a datacentre-class connection, from a
+fresh clone each time:
 
 | Run | Wall clock | What dominates |
 |-----|-----------|----------------|
-| Cold: fresh clone, empty uv cache, empty data cache | **4 min 37 s** | downloading wheels (about 1.0 GB, of which PyTorch CPU is 200 MB) and the 237 MB checkpoint |
-| Warm: environment and caches in place | **9.6 s** | 1.1 s model load, 0.1 s per prediction |
-| Warm, model already loaded in a notebook | under 1 s per question | |
+| Cold: fresh clone, empty uv cache, empty data cache | **24 s** | downloading 1.3 GB of wheels and the 237 MB checkpoint |
+| Warm: environment and caches in place | **4.0 s** | 1.1 s model load, about 0.1 s per prediction |
+| `uv run pytest -q`, warm | 9 s | |
+| `make notebook` (executes all cells), warm | 15 s | |
 
-Cold time is network bound. On a slower connection assume 8 to 10 minutes, which
-is why the talk should run the warm path live and keep the recording in
+Cold time is almost entirely network. Twenty-four seconds is what a very fast
+connection buys; on a 50 Mbit/s hotel or conference link the same 1.5 GB takes
+about four minutes, and on a slow or throttled link more. That is the whole
+reason the talk should run the warm path live and keep the recording in
 `RECORDING.md` as the backup.
 
 ### How much it downloads
 
 | Item | Size | Where it goes |
 |------|------|---------------|
-| Python wheels (PyTorch CPU, RDKit, pandas, pyarrow, numpy) | about 1.0 GB downloaded, 1.4 GB installed | `.venv/`, uv's cache |
+| Python wheels (PyTorch CPU, RDKit, pandas, pyarrow, numpy) | 1.28 GB downloaded into uv's cache; `.venv` is 41 MB of hardlinks into it | uv cache, `.venv/` |
 | ToxTransformer checkpoint and tokenizers | 238 MB | `cache/toxtransformer/` |
 | BioBricks ICE tables (`Cancer`, `ChemicalQC`) | 0.9 MB | `cache/ice/` |
 
-`make clean` removes `cache/`; deleting `.venv` removes the rest. Nothing is
-written outside the repository.
+So about 1.5 GB in total, of which the environment is by far the larger half.
+`make clean` removes `cache/`; deleting `.venv` removes the environment; `uv cache
+clean` removes the wheel cache, which is the only thing written outside the
+repository. The 1.5 GB is dominated by PyTorch: the data slice is under a
+megabyte and the model is 238 MB.
 
 ## What you are looking at
 
@@ -186,7 +195,7 @@ mixed and mostly negative (1 positive / 2 negative study calls), and ToxTransfor
 predicts not active (mean p = 0.365). The weight of the public evidence does not
 support a mutagenicity call, but it is not clean.
 
-13 facts, 5 tool calls, 9.6s, 239.1 MB cached locally.
+13 facts, 5 tool calls, 2.8s, 239.1 MB cached locally.
 ```
 
 The three mutagenicity heads disagree with each other (0.210, 0.773, 0.112), and
@@ -225,7 +234,7 @@ hazard assessment.
 | `SHA-256 mismatch` or `MD5 mismatch` | The partial file is deleted automatically. Re-run. If it repeats, something between you and the source is rewriting bytes, and that is exactly what the check is for. |
 | PubChem request fails | The demo falls back to its three-entry local structure table and says so in the provenance line. For other chemicals, pass the structure in by adding it to `KNOWN_STRUCTURES` in `src/agentic_tox/kg.py`. |
 | `No CAS number found in the question` | Put the CAS in the question: `uv run demo "Is X (CAS 123-45-6) mutagenic?"`. The planner is rule based on purpose, and does not guess. |
-| It picked a GPU build of PyTorch | It should not: `torch` is pinned to the `pytorch-cpu` index in `pyproject.toml`. If `.venv` is 6 GB rather than 1.4 GB, delete it and `uv.lock` and run `uv sync` again. |
+| It picked a GPU build of PyTorch | It should not: `torch` is pinned to the `pytorch-cpu` index in `pyproject.toml`. If uv's cache grows past about 6 GB, delete `.venv` and `uv.lock` and run `uv sync` again. |
 | Corporate proxy blocks S3 or GitHub | Everything is plain HTTPS GET. The three hosts needed are `ins-dvc.s3.amazonaws.com`, `raw.githubusercontent.com` and `media.githubusercontent.com`, plus `pubchem.ncbi.nlm.nih.gov` and `pypi.org`. |
 | Tests fail on `test_oxybenzone_prediction_reproduces` | CPU float32 should reproduce to within 2e-3. A different number means a different checkpoint; check the digest in the failure. |
 

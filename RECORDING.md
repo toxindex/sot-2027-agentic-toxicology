@@ -77,7 +77,7 @@ public server. Keep the `.cast` file local.
 Total about 4 minutes. The commands are the whole of it; everything else is what
 to say and where to point.
 
-**0:00 to 0:25 — what is on screen.** Show the repository, nothing running yet.
+**0:00 to 0:25: what is on screen.** Show the repository, nothing running yet.
 
 ```bash
 ls
@@ -87,7 +87,7 @@ sed -n '1,20p' README.md
 Say: three tools, public data, a public model, and an agent that cites
 everything. One command runs it. No API key.
 
-**0:25 to 1:05 — the data is addressable.** Show that the data slice is pinned,
+**0:25 to 1:05: the data is addressable.** Show that the data slice is pinned,
 not downloaded on trust.
 
 ```bash
@@ -102,7 +102,7 @@ Say: this is a public BioBricks brick of the NICEATM Integrated Chemical
 Environment. Each table is addressed by its MD5, so the demo verifies the bytes
 instead of trusting the host. Total for this demo: under a megabyte.
 
-**1:05 to 1:35 — the model is public and runs on this CPU.**
+**1:05 to 1:35: the model is public and runs on this CPU.**
 
 ```bash
 uv run python -c "
@@ -117,7 +117,7 @@ Say: MIT licensed code and weights, 59 million parameters, 6,647 property heads,
 of which this demo pins five by index and by stable identifier. CPU only, about
 a tenth of a second per prediction.
 
-**1:35 to 3:10 — the whole demo, one command.** This is the heart of it. Let it
+**1:35 to 3:10: the whole demo, one command.** This is the heart of it. Let it
 run and scroll; do not cut it.
 
 ```bash
@@ -136,7 +136,7 @@ Point at, in this order:
 4. the ANSWER block, and the last line of the output: every fact traceable to a
    dataset digest, a weights hash or an API request, with a timestamp.
 
-**3:10 to 3:40 — the trace is machine-readable.**
+**3:10 to 3:40: the trace is machine-readable.**
 
 ```bash
 uv run demo --json | head -40
@@ -145,7 +145,7 @@ uv run demo --json | head -40
 Say: this is what you attach to a report, or hand to a reviewer who wants to
 check the agent rather than trust it.
 
-**3:40 to 4:10 — the limits, on screen.**
+**3:40 to 4:10: the limits, on screen.**
 
 ```bash
 sed -n '/^## What this shows/,/^## Troubleshooting/p' README.md
@@ -154,7 +154,7 @@ sed -n '/^## What this shows/,/^## Troubleshooting/p' README.md
 Say the "does not show" list out loud. It is the part of the talk that a
 regulator in the audience will remember.
 
-**Optional tail, 30 s — the notebook.** Only if the recording is already under
+**Optional tail, 30 s: the notebook.** Only if the recording is already under
 four minutes.
 
 ```bash
