@@ -7,7 +7,6 @@ setup:
 	uv sync
 
 test:
-	uv sync --extra dev
 	uv run pytest -q
 
 notebook:

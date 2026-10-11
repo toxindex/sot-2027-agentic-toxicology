@@ -17,14 +17,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-notebook = ["jupyter-core==5.8.1", "nbconvert==7.16.6", "nbclient==0.10.2", "ipykernel==6.30.0"]
-dev = ["pytest==8.4.2"]
+notebook = ["jupyter-core==5.8.1", "nbconvert==7.16.6", "nbclient==0.10.2", "ipykernel==6.30.0", "jupyterlab==4.4.5"]
 
 [project.scripts]
 demo = "agentic_tox.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[dependency-groups]
+# Synced by default, so `uv run pytest` works in a fresh clone.
+dev = ["pytest==8.4.2"]
 
 [tool.uv.sources]
 toxtransformer-research = { url = "https://github.com/toxindex/toxtransformer-research/archive/e99a7b9d3568950fecd0b19bb6ea2e2238ee03d5.tar.gz" }
