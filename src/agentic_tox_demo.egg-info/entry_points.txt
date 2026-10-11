@@ -1,2 +1,0 @@
-[console_scripts]
-demo = agentic_tox.cli:main
