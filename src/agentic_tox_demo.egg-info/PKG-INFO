@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: agentic-tox-demo
+Version: 0.1.0
+Summary: SOT 2027 CE course demo: integrated public toxicology databases, a public predictive model, and a provenance-first agent loop
+License-Expression: MIT
+Requires-Python: <3.12,>=3.11
+License-File: LICENSE
+Requires-Dist: toxtransformer-research
+Requires-Dist: torch==2.8.0
+Requires-Dist: pandas==2.3.1
+Requires-Dist: pyarrow==21.0.0
+Requires-Dist: requests==2.32.4
+Provides-Extra: notebook
+Requires-Dist: jupyter-core==5.8.1; extra == "notebook"
+Requires-Dist: nbconvert==7.16.6; extra == "notebook"
+Requires-Dist: nbclient==0.10.2; extra == "notebook"
+Requires-Dist: ipykernel==6.30.0; extra == "notebook"
+Provides-Extra: dev
+Requires-Dist: pytest==8.4.2; extra == "dev"
+Dynamic: license-file

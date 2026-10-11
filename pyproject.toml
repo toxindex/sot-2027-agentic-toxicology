@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-tox-demo"
+version = "0.1.0"
+description = "SOT 2027 CE course demo: integrated public toxicology databases, a public predictive model, and a provenance-first agent loop"
+requires-python = ">=3.11,<3.12"
+license = "MIT"
+dependencies = [
+  "toxtransformer-research",
+  "torch==2.8.0",
+  "pandas==2.3.1",
+  "pyarrow==21.0.0",
+  "requests==2.32.4",
+]
+
+[project.optional-dependencies]
+notebook = ["jupyter-core==5.8.1", "nbconvert==7.16.6", "nbclient==0.10.2", "ipykernel==6.30.0"]
+dev = ["pytest==8.4.2"]
+
+[project.scripts]
+demo = "agentic_tox.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+toxtransformer-research = { url = "https://github.com/toxindex/toxtransformer-research/archive/e99a7b9d3568950fecd0b19bb6ea2e2238ee03d5.tar.gz" }
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
