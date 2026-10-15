@@ -81,7 +81,7 @@ to say and where to point.
 
 ```bash
 ls
-sed -n '1,20p' README.md
+sed -n '1,20p' docs/local-demo.md
 ```
 
 Say: three tools, public data, a public model, and an agent that cites
@@ -148,7 +148,7 @@ check the agent rather than trust it.
 **3:40 to 4:10: the limits, on screen.**
 
 ```bash
-sed -n '/^## What this shows/,/^## Troubleshooting/p' README.md
+sed -n '/^## What this shows/,/^## Troubleshooting/p' docs/local-demo.md
 ```
 
 Say the "does not show" list out loud. It is the part of the talk that a

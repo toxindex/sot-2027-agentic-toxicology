@@ -9,7 +9,7 @@ published as Parquet tables. BioBricks stores brick assets as DVC objects
 addressed by MD5, so a single table can be fetched over plain HTTPS without the
 `biobricks` client, without credentials, and without downloading the brick's
 other 25 tables. The `biobricks` package is the supported route for real work
-(see README); this demo takes the direct-HTTPS route so an attendee needs no
+(see docs/local-demo.md); this demo takes the direct-HTTPS route so an attendee needs no
 token and no 70 MB pull.
 """
 
@@ -269,7 +269,7 @@ def tox21_identity(cas: str) -> list[Fact]:
 
 
 def cached_bytes() -> int:
-    """How much has been downloaded into the cache, for the README's numbers."""
+    """How much has been downloaded into the cache, for the numbers in docs/local-demo.md."""
     if not CACHE.exists():
         return 0
     return sum(p.stat().st_size for p in CACHE.rglob("*") if p.is_file())

@@ -1,6 +1,6 @@
 """Tests for the no-key path. These need network access on first run.
 
-They are deliberately cheap and mostly about the claims the README makes:
+They are deliberately cheap and mostly about the claims docs/local-demo.md makes:
 the pins match the published catalog, every fact carries provenance, and the
 recorded prediction for the demo chemical still reproduces on CPU.
 """
